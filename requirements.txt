@@ -1,0 +1,7 @@
+transformers
+peft
+datasets
+torch
+fastapi
+uvicorn
+tqdm
