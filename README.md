@@ -128,13 +128,14 @@ models/
 To merge LoRA weights with the base model for standalone deployment:
 
 ```
-
+```
 from peft import PeftModel
 
 merged_model = PeftModel.from_pretrained(base_model, "models/lora_adapter/")
 merged_model.merge_and_unload()
 merged_model.save_pretrained("models/final_phi_finetuned/")
 ```
+
 🧰 Notes
 LoRA fine-tuning doesn’t overwrite base model weights — only adapters are modified.
 
