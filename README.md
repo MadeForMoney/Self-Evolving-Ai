@@ -22,8 +22,7 @@ This repository demonstrates how to fine-tune the **Microsoft Phi model** using 
 │
 └── README.md # Project documentation
 
-yaml
-Copy code
+
 
 ---
 
@@ -45,30 +44,17 @@ Here’s how it works conceptually:
 
 ### 1️⃣ Create Environment
 
-```bash
+bash
 python -m venv venv
 source venv/bin/activate      # (Linux/Mac)
 venv\Scripts\activate         # (Windows)
 2️⃣ Install Dependencies
-bash
-Copy code
-pip install -r requirements.txt
-Example requirements.txt:
 
-nginx
-Copy code
-torch
-transformers
-peft
-datasets
-accelerate
-bitsandbytes
-tqdm
+pip install -r requirements.txt
+
 🏋️ Training the Model
 To fine-tune the Microsoft Phi model using LoRA:
 
-bash
-Copy code
 python app/train.py
 This will:
 
@@ -84,8 +70,6 @@ Log training progress into data/logs/
 
 Example training code snippet (from train.py):
 
-python
-Copy code
 from peft import LoraConfig, get_peft_model
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -107,15 +91,12 @@ model = get_peft_model(model, lora_config)
 🧪 Inference (Using the Fine-Tuned Model)
 To run inference using the LoRA-fine-tuned adapter:
 
-bash
-Copy code
+
 python app/inference.py
 This script automatically merges the LoRA adapter with the base model to produce output using the updated weights.
 
 Example:
 
-python
-Copy code
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -166,10 +147,6 @@ B.Tech Artificial Intelligence & Data Science
 🪪 License
 This project is released under the MIT License.
 
-
-
-Would you like me to **add usage examples for your custom dataset and logging (from your current code)** into the README too?  
-That would make it look more like a polished research repo.
 
 
 
