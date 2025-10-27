@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Self-Evolving AI Chat</title>
+<style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; display: flex; justify-content: center; padding-top:50px;}
+    #chatbox { width: 400px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px;}
+    #messages { height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 10px;}
+    .msg { margin-bottom: 10px; }
+    .user { color: #333; }
+    .ai { color: #007bff; }
+    button { margin-right: 5px; padding:5px 10px; border:none; border-radius:4px; cursor:pointer; }
+    .good { background:#28a745; color:white; }
+    .bad { background:#dc3545; color:white; }
+    input { padding:5px; border-radius:4px; border:1px solid #ccc; }
+</style>
+</head>
+<body>
+<div id="chatbox">
+    <div id="messages"></div>
+    <input type="text" id="input" placeholder="Type your message..." style="width: 70%;">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+async function sendMessage() {
+    const input = document.getElementById("input");
+    if (!input.value) return;
+    const userMessage = input.value;
+    appendMessage("You: " + userMessage, "user");
+    
+    // Send message to backend
+    const res = await fetch("/chat/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt: userMessage})
+    });
+    const data = await res.json();
+    appendMessage("AI: " + data.response, "ai", userMessage, data.response);
+    input.value = "";
+}
+
+function appendMessage(msg, type, lastPrompt="", aiResponse="") {
+    const messages = document.getElementById("messages");
+    const div = document.createElement("div");
+    div.className = "msg " + type;
+    div.innerHTML = msg;
+
+    if(type === "ai") {
+        const goodBtn = document.createElement("button");
+        goodBtn.className = "good";
+        goodBtn.innerText = "Good";
+        goodBtn.onclick = () => sendFeedback(lastPrompt, aiResponse, "good");
+
+        const badBtn = document.createElement("button");
+        badBtn.className = "bad";
+        badBtn.innerText = "Bad";
+        badBtn.onclick = () => sendFeedback(lastPrompt, aiResponse, "bad");
+
+        div.appendChild(document.createElement("br"));
+        div.appendChild(goodBtn);
+        div.appendChild(badBtn);
+    }
+
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+async function sendFeedback(prompt, response, fb) {
+    await fetch("/feedback/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt: prompt, response: response, feedback: fb})
+    });
+}
+</script>
+</body>
+</html>
