@@ -3,7 +3,7 @@
 This repository demonstrates how to fine-tune the **Microsoft Phi model** using **LoRA (Low-Rank Adaptation)** with **PEFT (Parameter-Efficient Fine-Tuning)**. The project includes training, inference, and logging utilities, wrapped into an easy-to-run modular setup.
 
 ---
-
+```
 ## 📂 Project Structure
 
 ├── app/ # Scripts for training, inference, and evaluation
@@ -21,7 +21,7 @@ This repository demonstrates how to fine-tune the **Microsoft Phi model** using 
 ├── requirements.txt # Python dependencies
 │
 └── README.md # Project documentation
-
+```
 
 
 ---
@@ -44,7 +44,7 @@ Here’s how it works conceptually:
 
 ### 1️⃣ Create Environment
 
-bash
+```
 python -m venv venv
 source venv/bin/activate      # (Linux/Mac)
 venv\Scripts\activate         # (Windows)
@@ -90,13 +90,13 @@ lora_config = LoraConfig(
 model = get_peft_model(model, lora_config)
 🧪 Inference (Using the Fine-Tuned Model)
 To run inference using the LoRA-fine-tuned adapter:
-
+```
 
 python app/inference.py
 This script automatically merges the LoRA adapter with the base model to produce output using the updated weights.
 
 Example:
-
+```
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -111,7 +111,7 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 📊 Logs & Results
 All training logs and evaluation metrics are saved under:
 
-bash
+```
 
 data/logs/
 You can visualize training curves or losses using tensorboard or by manually plotting from logs.
@@ -126,13 +126,14 @@ models/
 └── lora_adapter/       # Fine-tuned adapter weights
 To merge LoRA weights with the base model for standalone deployment:
 
-python
+```
 
 from peft import PeftModel
 
 merged_model = PeftModel.from_pretrained(base_model, "models/lora_adapter/")
 merged_model.merge_and_unload()
 merged_model.save_pretrained("models/final_phi_finetuned/")
+```
 🧰 Notes
 LoRA fine-tuning doesn’t overwrite base model weights — only adapters are modified.
 
