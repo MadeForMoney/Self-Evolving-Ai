@@ -88,9 +88,10 @@ lora_config = LoraConfig(
 )
 
 model = get_peft_model(model, lora_config)
+```
 🧪 Inference (Using the Fine-Tuned Model)
 To run inference using the LoRA-fine-tuned adapter:
-```
+
 
 python app/inference.py
 This script automatically merges the LoRA adapter with the base model to produce output using the updated weights.
@@ -119,7 +120,7 @@ You can visualize training curves or losses using tensorboard or by manually plo
 🧩 Model Saving and Loading
 After training, your folder will look like:
 
-bash
+```
 
 models/
 ├── base_model/         # Original frozen Microsoft Phi weights
@@ -141,12 +142,14 @@ You can train multiple LoRA adapters for different tasks and swap them in/out.
 
 PEFT provides a flexible and efficient way to train very large models even on modest GPUs.
 
-🧑‍💻 Author
+
+🧑‍💻 Author:
 Developed by Nithilan M
 B.Tech Artificial Intelligence & Data Science
 
-🪪 License
+🪪 License:
 This project is released under the MIT License.
+
 
 
 
